@@ -1,14 +1,14 @@
 var https = require('https');
 var querystring = require('querystring');
-var codedeploy_url = 'https://' + region + '.console.aws.amazon.com/codedeploy/home?region=' + region + '#/deployments/';
 var region = 'XXXXXXXX';
+var codedeploy_url = 'https://' + region + '.console.aws.amazon.com/codedeploy/home?region=' + region + '#/deployments/';
 
 exports.handler = function(event, context) {
  (event.Records || []).forEach(function (rec) {
   var message = JSON.parse(rec.Sns.Message);
   var post_message = `deploymentGroupName: ${message.deploymentGroupName}`
       + `\ndeploymentId: ${message.deploymentId}`
-      + `\nstatus: ${message.status}`
+      + `\nstatus: ${message.deploymentOverview}`
       + `\n${codedeploy_url}${message.deploymentId}`;
 
   var postData = querystring.stringify({
