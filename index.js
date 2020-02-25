@@ -6,10 +6,12 @@ var codedeploy_url = 'https://' + region + '.console.aws.amazon.com/codedeploy/h
 exports.handler = function(event, context) {
  (event.Records || []).forEach(function (rec) {
   var message = JSON.parse(rec.Sns.Message);
-  var post_message = `deploymentGroupName: ${message.deploymentGroupName}`
+  var post_message = "[info][title]Production App Codedeploy Information[/title]"
+      + `\ndeploymentGroupName: ${message.deploymentGroupName}`
       + `\ndeploymentId: ${message.deploymentId}`
       + `\nstatus: ${message.deploymentOverview}`
-      + `\n${codedeploy_url}${message.deploymentId}`;
+      + `\nerror: ${message.errorInformation}`
+      + `\n${codedeploy_url}${message.deploymentId}[/info]`;
 
   var postData = querystring.stringify({
     body: post_message
